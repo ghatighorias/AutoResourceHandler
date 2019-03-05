@@ -7,6 +7,8 @@ using System.Text;
 
 public static class PrefabAutoResource
 {
+    static ClassDescriptor classDescriptor;
+
     public static T AutoLoad<T>(string path)
     {
         var value = Resources.Load(path);
@@ -78,7 +80,8 @@ public static class PrefabAutoResource
     {
         var usingContent = CodeGenerator.AddUsing(new string[] {
             "UnityEngine",
-            "System.Collections.Generic" });
+            "System.Collections.Generic" })
+            .ToString();
 
         var enumCode = GenerateEnumCode(descriptor);
         var dictionaryMapper = GenerateEnumMappeDictionary(descriptor);
@@ -91,10 +94,24 @@ public static class PrefabAutoResource
             genericLoader
         });
 
-        var classCode = CodeGenerator.AddClass(true, true, GetClassName(descriptor), ClassContent);
+        var classCode = CodeGenerator.AddClass(true, true, GetClassName(descriptor), ClassContent).ToString();
 
-        return CodeGenerator.MergeContent(usingContent.ToString(), classCode.ToString(), enumCode).ToString();
+        return CodeGenerator.MergeContent(usingContent, classCode, enumCode).ToString();
     }
+
+    public static string GenerateClass(EnumDescriptor descriptor, ClassDescriptor generatedClassDescriptor)
+    {
+        return string.Empty;
+    }
+}
+
+public struct ClassDescriptor
+{
+    public string saveLocation;
+    public string nameSpaceName;
+    public string className;
+    public string enumName;
+    public string MapperName;
 }
 
 public struct EnumDescriptor
