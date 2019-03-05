@@ -21,7 +21,8 @@ public class SampleMentu : MonoBehaviour
         EnumDescriptor descriptor = new EnumDescriptor()
         {
             name = "MySampleSet",
-            items = new Dictionary<string, string>()
+            items = new Dictionary<string, string>(),
+            elements = new List<EnumItemDescriptor>()
         };
 
         var prefabs = new List<SelectedPrefab>();
@@ -40,6 +41,19 @@ public class SampleMentu : MonoBehaviour
             descriptor.items.Add(string.Format("PREFAB_{0}", item.name), item.AssetPath);
         }
 
+        int enumItemCounter = 0;
+        foreach (var item in prefabs)
+        {
+            descriptor.elements.Add(new EnumItemDescriptor()
+            {
+                name = string.Format("PREFAB_{0}", item.name),
+                mappedValue = item.AssetPath,
+                itemValue = enumItemCounter
+            });
+
+            enumItemCounter++;
+        }
+
         var fileName = string.Format("./Assets/{0}Loader.cs", descriptor.name);
         using (var writer = System.IO.File.CreateText(fileName))
         {
@@ -48,7 +62,7 @@ public class SampleMentu : MonoBehaviour
         }
 
         AssetDatabase.Refresh();
-    } 
+    }
 }
 
 

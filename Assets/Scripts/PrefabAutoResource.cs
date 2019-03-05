@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using AutoPrefabLoader;
+using System.Text;
 
 public static class PrefabAutoResource
 {
@@ -17,62 +20,80 @@ public static class PrefabAutoResource
 
     static string GetClassName(EnumDescriptor descriptor)
     {
-        return string.Format("{0}Items", descriptor.name);
+        return string.Format("{0}Loader", descriptor.name);
     }
 
     static string GetMapperName(EnumDescriptor descriptor)
     {
-        return string.Format("{0}Items", descriptor.name);
+        return string.Format("{0}_Value_Mapper", descriptor.name);
     }
 
-    public static string GenerateEnumCode(EnumDescriptor descriptor)
+    static string GenerateNameSpace(EnumDescriptor descriptor)
     {
-        var enumHeader = string.Format("public enum {0}\n{{\n", GetEnumName(descriptor));
-        var enumBody = string.Empty;
-        var enumEnd = "}";
+        return string.Empty;
+    }
 
-        foreach (var item in descriptor.items)
+    static string GenerateEnumCode(EnumDescriptor descriptor)
+    {
+        var content = CodeGenerator.AddEnumContent(descriptor.elements);
+
+        var enumbuilder = CodeGenerator.AddEnum(true, GetEnumName(descriptor), content);
+
+        return enumbuilder.ToString();
+    }
+
+    static string GenerateEnumMappeDictionary(EnumDescriptor descriptor)
+    {
+        var fieldType = string.Format("Dictionary<{0},string>", GetEnumName(descriptor));
+
+        var fixedElementList = descriptor.elements.Select((element) => new EnumItemDescriptor()
         {
-            enumBody += string.Format("\t{0},\n", item.Key);
-        }
+            name = string.Format("{0}.{1}", GetEnumName(descriptor), element.name),
+            mappedValue = element.mappedValue,
+            itemValue = element.itemValue
+        }).ToList();
 
-        return string.Format("{0}{1}{2}", enumHeader, enumBody, enumEnd);
+        var mapperCode = CodeGenerator.AddDictionaryField(true, true, fieldType, GetMapperName(descriptor), fixedElementList);
+
+        return mapperCode.ToString();
     }
 
-    public static string GenerateEnumMappeDictionary(EnumDescriptor descriptor)
+    static string GenerateGenericEnumLoader(EnumDescriptor descriptor)
     {
-        var mapperHeader = string.Format("public static Dictionary<{0},string> {0}_Value_Mapper = new Dictionary<{0},string>()\n{{\n", GetEnumName(descriptor));
-        var mapperBody = string.Empty;
-        var mapperClosure = "};";
+        var content = string.Format("return PrefabAutoResource.AutoLoad<T>({0}[resource]);", GetMapperName(descriptor));
+        var methodCode = CodeGenerator.AddMethod(true, true, "T", "Load<T>", string.Format("{0} resource", GetEnumName(descriptor)), content);
 
-        foreach (var item in descriptor.items)
-        {
-            mapperBody += string.Format("\t{{{0}.{1}, \"{2}\"}},\n", GetEnumName(descriptor), item.Key, item.Value);
-        }
-
-        return string.Format("{0}{1}{2}", mapperHeader, mapperBody, mapperClosure);
+        return methodCode.ToString();
     }
 
-    public static string GenerateEnumLoader(EnumDescriptor descriptor)
+    static string GenerateGameobjectEnumLoader(EnumDescriptor descriptor)
     {
-        var header = string.Format("public static T Load<T>({0} resource)\n{{\n", GetEnumName(descriptor));
-        var body = string.Format("\treturn PrefabAutoResource.AutoLoad<T>({0}_Value_Mapper[resource]);", GetEnumName(descriptor));
-        var closure = "\n}";
+        var content = "return Load<GameObject>(resource);";
+        var methodCode = CodeGenerator.AddMethod(true, true, "GameObject", "Load", string.Format("{0} resource", GetEnumName(descriptor)), content);
 
-        return string.Format("{0}{1}{2}", header, body, closure);
+        return methodCode.ToString();
     }
 
     public static string GenerateClass(EnumDescriptor descriptor)
     {
-        string usings = "using System.Collections.Generic;\n";
-        string classHeader = string.Format("public static class {0}Loader\n{{\n", descriptor.name);
-        string classClosure = "\n}";
+        var usingContent = CodeGenerator.AddUsing(new string[] {
+            "UnityEngine",
+            "System.Collections.Generic" });
 
-        var enumCode = PrefabAutoResource.GenerateEnumCode(descriptor);
-        var mapperCode = PrefabAutoResource.GenerateEnumMappeDictionary(descriptor);
-        var loaderCode = PrefabAutoResource.GenerateEnumLoader(descriptor);
+        var enumCode = GenerateEnumCode(descriptor);
+        var dictionaryMapper = GenerateEnumMappeDictionary(descriptor);
+        var genericLoader = GenerateGenericEnumLoader(descriptor);
+        var gameobjectLoader = GenerateGameobjectEnumLoader(descriptor);
 
-        return string.Format("{0}{1}\n{2}\n{3}{4}\n{5}", usings, classHeader, mapperCode, loaderCode, classClosure, enumCode);
+        var ClassContent = CodeGenerator.MergeContent(new string[]{
+            dictionaryMapper,
+            gameobjectLoader,
+            genericLoader
+        });
+
+        var classCode = CodeGenerator.AddClass(true, true, GetClassName(descriptor), ClassContent);
+
+        return CodeGenerator.MergeContent(usingContent.ToString(), classCode.ToString(), enumCode).ToString();
     }
 }
 
@@ -80,4 +101,12 @@ public struct EnumDescriptor
 {
     public string name;
     public Dictionary<string, string> items;
+    public List<EnumItemDescriptor> elements;
+}
+
+public struct EnumItemDescriptor
+{
+    public string name;
+    public string mappedValue;
+    public int itemValue;
 }
