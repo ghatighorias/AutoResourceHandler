@@ -71,6 +71,11 @@ public class SelectedPrefab
 {
     public string name;
     public string guid;
-    public string AssetPath { get { return AssetDatabase.GUIDToAssetPath(guid); } }
-
+    public string AssetPath
+    {
+        get
+        {
+            return AssetDatabase.GUIDToAssetPath(guid);
+        }
+    }
 }
