@@ -85,7 +85,7 @@ public class ShowPopupExample : EditorWindow
         Rect buttonRect = new Rect(50, 120, 150, 20);
         if (GUI.Button(buttonRect, "Generate"))
         {
-            Assets.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(classDescriptor);
+            sample.ResourceHandlerCodeGenerator.GenerateAndSave(classDescriptor);
             
             AssetDatabase.Refresh();
 
