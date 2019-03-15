@@ -2,7 +2,6 @@
 using UnityEditor;
 using System;
 using System.Collections.Generic;
-using AssemblyCSharp;
 
 public class ShowPopupExample : EditorWindow
 {
@@ -88,15 +87,7 @@ public class ShowPopupExample : EditorWindow
         Rect buttonRect = new Rect(50, 120, 150, 20);
         if (GUI.Button(buttonRect, "Generate"))
         {
-            AssemblyCSharp.Scripts.PreprocessedT4Template t4 = new AssemblyCSharp.Scripts.PreprocessedT4Template();
-            t4.SetupGenerator(classDescriptor);
-            
-            var fileName = string.Format("./{0}/{1}.cs",classDescriptor.saveLocation, classDescriptor.className);
-            using (var writer = System.IO.File.CreateText(fileName))
-            {
-                writer.WriteLine(t4.TransformText());
-                writer.Flush();
-            }
+            Assets.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(classDescriptor);
 
             AssetDatabase.Refresh();
 
