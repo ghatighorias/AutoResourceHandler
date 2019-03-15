@@ -11,8 +11,7 @@ public class PrefabHandler
 {
     private static Dictionary<PrefabHandlerEnum, string> PrefabHandlerMapper = new Dictionary<PrefabHandlerEnum, string>()
     {
-        {PrefabHandlerEnum.Prefab2, "Assets/Resources/samplePrefab.prefab"},
-        {PrefabHandlerEnum.samplePrefab, "Assets/Resources/Prefab2.prefab"},
+        {PrefabHandlerEnum.samplePrefab, "Assets/Resources/samplePrefab.prefab"},
     };
     
     public int ResourceCount { get { return PrefabHandlerMapper.Count; }}
@@ -47,7 +46,6 @@ public class PrefabHandler
 	/// </summary>
     public enum PrefabHandlerEnum
     {
-        Prefab2,
         samplePrefab,
     }
 }

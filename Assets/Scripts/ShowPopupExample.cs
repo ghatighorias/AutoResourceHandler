@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System;
-using System.Collections.Generic;
 
 public class ShowPopupExample : EditorWindow
 {
@@ -88,7 +86,7 @@ public class ShowPopupExample : EditorWindow
         if (GUI.Button(buttonRect, "Generate"))
         {
             Assets.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(classDescriptor);
-
+            
             AssetDatabase.Refresh();
 
             this.Close();

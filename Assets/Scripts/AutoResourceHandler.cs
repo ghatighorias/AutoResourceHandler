@@ -21,16 +21,16 @@ using UnityEditor;
         public List<SelectedItem> items = new List<SelectedItem>();
     }
 
-    public class SelectedItem
+public class SelectedItem
+{
+    public string name;
+    public string guid;
+    public GameObject item;
+    public string AssetPath
     {
-        public string name;
-        public string guid;
-        public GameObject item;
-        public string AssetPath
+        get
         {
-            get
-            {
-                return AssetDatabase.GUIDToAssetPath(guid);
-            }
+            return AssetDatabase.GUIDToAssetPath(guid);
         }
     }
+}
