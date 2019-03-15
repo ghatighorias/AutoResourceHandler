@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace sample
+namespace Assets.Scripts
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace sample
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+    #line 1 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class ResourceHandlerCodeGenerator : ResourceHandlerCodeGeneratorBase
     {
@@ -37,37 +37,59 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ");
+");
             
-            #line 15 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 15 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
+ if(!string.IsNullOrEmpty(namespaceName)) 
+	{ 
+            
+            #line default
+            #line hidden
+            this.Write("namespace ");
+            
+            #line 17 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(namespaceName));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n{\r\n ");
+            
+            #line 19 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("public class ");
+            
+            #line 20 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    private static Dictionary<");
             
-            #line 17 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 22 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(", string> ");
             
-            #line 17 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 22 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
             #line hidden
             this.Write(" = new Dictionary<");
             
-            #line 17 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 22 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(", string>()\r\n    {\r\n");
             
-            #line 19 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 24 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
  foreach(var item in items)
 {
             
@@ -75,35 +97,35 @@ public class ");
             #line hidden
             this.Write("        {");
             
-            #line 21 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 26 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 21 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 26 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.name));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 21 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 26 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.AssetPath));
             
             #line default
             #line hidden
             this.Write("\"},\r\n");
             
-            #line 22 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 27 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
 }
             
             #line default
             #line hidden
             this.Write("    };\r\n    \r\n    public int ResourceCount { get { return ");
             
-            #line 25 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 30 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
@@ -111,7 +133,7 @@ public class ");
             this.Write(".Count; }}\r\n\r\n\t/// <summary>\r\n\t/// Loads a game object from using its mapped enum" +
                     "\r\n\t/// </summary>\r\n    public static GameObject Load(");
             
-            #line 30 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 35 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
@@ -120,14 +142,14 @@ public class ");
                     "mary>\r\n\t/// Loads an asset from using its mapped enum\r\n\t/// </summary>    \r\n    " +
                     "public static T Load<T>(");
             
-            #line 38 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 43 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(" resource)\r\n    {\r\n        return AssetLoad<T>(");
             
-            #line 40 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 45 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
@@ -147,21 +169,21 @@ public class ");
 	/// <summary>
 	/// Enum indicating the available assets for loading using ");
             
-            #line 53 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 58 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" load function\r\n\t/// </summary>\r\n    public enum ");
             
-            #line 55 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 60 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n");
             
-            #line 57 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 62 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
  foreach(var item in items)
 {
             
@@ -169,44 +191,60 @@ public class ");
             #line hidden
             this.Write("        ");
             
-            #line 59 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 64 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", item.name)));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 60 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 65 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
 }
             
             #line default
             #line hidden
             this.Write("    }\r\n}\r\n\r\n");
+            
+            #line 69 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
+ if(!string.IsNullOrEmpty(namespaceName)) 
+{
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n");
+            
+            #line 72 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 64 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.t4"
+        #line 74 "D:\Unity\AutoResourceHandler\Assets\Scripts\ResourceHandlerCodeGenerator.tt"
 
     string className = "defaultClassName";
     string enumName = "defaultEnumName";
     string mapperName = "defaultMapperName";
-    string nameSpaceName = "defaultNameSpaceName";
-    List<SelectedItem> items = new List<SelectedItem>();
+    string namespaceName = string.Empty;
+    List<AutoAssetLoader.SelectedItem> items = new List<AutoAssetLoader.SelectedItem>();
 
 	/// <summary>
 	/// Generate the asset loader class using ClassDescriptor
 	/// </summary>
-    public void SetupGenerator(ClassDescriptor classDescriptor)
+    public void SetupGenerator(AutoAssetLoader.ClassDescriptor classDescriptor)
     {
         mapperName = classDescriptor.MapperName;
         enumName = classDescriptor.EnumName;
         className = classDescriptor.className;
-        nameSpaceName = classDescriptor.namespaceName;
+        namespaceName = classDescriptor.namespaceName;
         
         items = classDescriptor.items;
     }
 
-	public static void GenerateAndSave(ClassDescriptor classDescriptor)
+
+	public static void GenerateAndSave(AutoAssetLoader.ClassDescriptor classDescriptor)
 	{
 	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
             t4.SetupGenerator(classDescriptor);
