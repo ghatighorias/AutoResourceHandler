@@ -21,15 +21,18 @@ namespace AutoAssetLoader
 {
 	public class <#= className #>
 	{
+		const string itemNamePrefix = <#= itemNamePrefix #>
+		const bool itemNameToUpper = <#= itemNameToUpper #>
+
 		private static Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 			<# foreach(var item in items)
 			{#>
-					{<#=enumName#>.<#=item.name#>, "<#=item.guid#>"},
+					{<#=enumName#>.<#=getEnumName(item.name)#>, "<#=item.guid#>"},
 			<#}#>
 		};
     
-		public int ResourceCount { get { return <#=mapperName#>.Count; }}
+		public int ResourceCount { get { return <#=mapperName#>.Count; } }
 
 		/// <summary>
 		/// Loads a game object from using its mapped enum
@@ -63,12 +66,15 @@ namespace AutoAssetLoader
 		public enum <#= enumName #>
 		{
 			<# foreach(var item in items) {#>
-				<#var enumItemName = $"{itemNamePrefix}{item.name}";#>
-				<#=string.Format("{0},", itemNameToUpper ? item.name.ToUpper() : item.name)#>
+				<#=string.Format("{0},", getEnumName(item.name))#>
 			<#}#>
 		}
 
-		string getEnumName
+		string getEnumName(string name)
+		{
+			var fullName = $"{itemNamePrefix}{name}";
+			itemNameToUpper ? fullName.ToUpper() : fullName;
+		}
 	}
 }
 
