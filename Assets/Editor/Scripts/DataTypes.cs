@@ -1,16 +1,12 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace AutoAssetLoader
 {
-    public class AutoResourceHandler
-    {
-        public AutoResourceHandler()
-        {
-        }
-    }
-
+    /// <summary>
+    /// This class is used as code generator input
+    /// </summary>
     public class ClassDescriptor
     {
         public string saveLocation;
@@ -18,10 +14,15 @@ namespace AutoAssetLoader
         public string className;
         public string EnumName { get { return string.Format("{0}Enum", className); } }
         public string MapperName { get { return string.Format("{0}Mapper", className); } }
-
-        public List<SelectedItem> items = new List<SelectedItem>();
+        public string itemNamePrefix;
+        public bool itemNameToUpper;
+        public bool seperateEnumForPrefabs;
+        public bool seperateEnumPerFolder;
     }
 
+    /// <summary>
+    /// This class describes the selected item from the editor
+    /// </summary>
     public class SelectedItem
     {
         public string name;
@@ -34,5 +35,13 @@ namespace AutoAssetLoader
                 return AssetDatabase.GUIDToAssetPath(guid);
             }
         }
+    }
+
+    public class FileItemDescriptor
+    {
+        public string name;
+        public string path;
+        public string directory;
+        public string guid;
     }
 }
