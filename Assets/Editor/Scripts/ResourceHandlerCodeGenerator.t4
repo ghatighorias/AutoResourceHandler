@@ -21,9 +21,6 @@ namespace AutoAssetLoader
 {
 	public class <#= className #>
 	{
-		const string itemNamePrefix = <#= itemNamePrefix #>
-		const bool itemNameToUpper = <#= itemNameToUpper #>
-
 		private static Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 			<# foreach(var item in items)
@@ -74,12 +71,6 @@ namespace AutoAssetLoader
 				<#=string.Format("{0},", getEnumName(item.name))#>
 			<#}#>
 		}
-
-		string getEnumName(string name)
-		{
-			var fullName = $"{itemNamePrefix}{name}";
-			itemNameToUpper ? fullName.ToUpper() : fullName;
-		}
 	}
 }
 
@@ -91,6 +82,12 @@ namespace AutoAssetLoader
 	string saveLocation;
 	string itemNamePrefix;
     bool itemNameToUpper;
+
+	string getEnumName(string name)
+	{
+		var fullName = $"{itemNamePrefix}{name}";
+		return itemNameToUpper ? fullName.ToUpper() : fullName;
+	}
 
 	public static void GenerateAndSave(List<FileItemDescriptor> items)
 	{
