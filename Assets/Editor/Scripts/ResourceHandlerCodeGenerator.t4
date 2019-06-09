@@ -34,6 +34,11 @@ namespace AutoAssetLoader
     
 		public int ResourceCount { get { return <#=mapperName#>.Count; } }
 
+		public bool ContainsGuid(string guid)
+		{
+			return <#=mapperName#>.ContainsValue(guid);
+		}
+
 		/// <summary>
 		/// Loads a game object from using its mapped enum
 		/// </summary>
