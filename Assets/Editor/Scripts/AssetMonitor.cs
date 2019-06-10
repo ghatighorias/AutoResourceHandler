@@ -2,13 +2,30 @@
 using UnityEngine;
 using UnityEditor;
 
-class AssetMonitor : UnityEditor.AssetModificationProcessor
+namespace AutoAssetLoader
 {
-    private static AssetMoveResult OnWillMoveAsset(string sourcePath, string destinationPath)
+    class AssetMonitor : UnityEditor.AssetModificationProcessor
     {
-        
+        static void OnWillCreateAsset(string assetName)
+        {
+            var guid = AssetDatabase.AssetPathToGUID(assetName);
+            if (!string.IsNullOrWhiteSpace(guid))
+            {
+                AutoResourceHandler.LoadSettings();
+                AutoResourceHandler.Generate();
+            }
+        }
 
-        // Perform operations on the asset and set the value of 'assetMoveResult' accordingly.
-        return AssetMoveResult.DidNotMove;
+        static AssetDeleteResult OnWillDeleteAsset(string assetName, RemoveAssetOptions removeAssetOptions)
+        {
+            var guid = AssetDatabase.AssetPathToGUID(assetName);
+            if (!string.IsNullOrWhiteSpace(guid))
+            {
+                AutoResourceHandler.LoadSettings();
+                AutoResourceHandler.Generate();
+            }
+
+            return AssetDeleteResult.DidNotDelete;
+        }
     }
 }
