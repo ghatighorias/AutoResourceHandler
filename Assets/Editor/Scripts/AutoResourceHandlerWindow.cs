@@ -38,7 +38,7 @@ namespace AutoAssetLoader
             CreateTextInput("Class name", ref AutoResourceHandler.ClassDescriptor.className, new Rect(10, 30, 100, 15));
             CreateTextInput("Save location", ref AutoResourceHandler.ClassDescriptor.saveLocation, new Rect(10, 50, 100, 15), dragDrop: true);
             CreateTextInput("Item name prefix", ref AutoResourceHandler.ClassDescriptor.itemNamePrefix, new Rect(10, 70, 100, 15));
-
+            
             AutoResourceHandler.ClassDescriptor.itemNameToUpper = GUI.Toggle(new Rect(10, 90, 250, 20), AutoResourceHandler.ClassDescriptor.itemNameToUpper, "Change Item names to uppercase");
             // the code is not implemented for this section yet
             GUI.enabled = false;
@@ -46,9 +46,11 @@ namespace AutoAssetLoader
             AutoResourceHandler.ClassDescriptor.seperateEnumPerFolder = GUI.Toggle(new Rect(10, 130, 250, 20), AutoResourceHandler.ClassDescriptor.seperateEnumPerFolder, "Create seperate enum per each folder");
             GUI.enabled = true;
 
-            AutoResourceHandler.Active = GUI.Toggle(new Rect(10, 150, 250, 20), AutoResourceHandler.Active, "Auto refresh if resources changed");
+            AutoResourceHandler.ClassDescriptor.staticClass = GUI.Toggle(new Rect(10, 150, 250, 20), AutoResourceHandler.ClassDescriptor.staticClass, "Make resource handler static");
 
-            Rect buttonRect = new Rect(50, 170, 150, 20);
+            AutoResourceHandler.Active = GUI.Toggle(new Rect(10, 170, 250, 20), AutoResourceHandler.Active, "Auto refresh if resources changed");
+
+            Rect buttonRect = new Rect(50, 190, 150, 20);
             if (GUI.Button(buttonRect, "Update and Generate"))
             {
                 AutoResourceHandler.Generate();
