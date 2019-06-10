@@ -20,17 +20,17 @@ using System.Collections.Generic;
 
 namespace <#= namespaceName #> 
 {
-	public <#= makeClassStatic ? "static" : "" #> class <#= className #>
+	public class <#= className #>
 	{
-		<#= makeClassStatic ? "static " : " " #>Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
+		Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 		<# foreach(var item in items) {#>
 	{<#=enumName#>.<#=getEnumName(item)#>, "<#=item.guid#>"},
 		<#}#>};
     
-		public <#= makeClassStatic ? "static" : "" #> int ResourceCount { get { return <#=mapperName#>.Count; } }
+		public int ResourceCount { get { return <#=mapperName#>.Count; } }
 
-		public <#= makeClassStatic ? "static" : "" #> bool ContainsGuid(string guid)
+		public bool ContainsGuid(string guid)
 		{
 			return <#=mapperName#>.ContainsValue(guid);
 		}
@@ -38,7 +38,7 @@ namespace <#= namespaceName #>
 		/// <summary>
 		/// Loads a game object from using its mapped enum
 		/// </summary>
-		public <#= makeClassStatic ? "static" : "" #> GameObject Load(<#=enumName#> resource)
+		public GameObject Load(<#=enumName#> resource)
 		{
 			return Load<GameObject>(resource);
 		}
@@ -46,7 +46,7 @@ namespace <#= namespaceName #>
 		/// <summary>
 		/// Loads an asset from using its mapped enum
 		/// </summary>    
-		public <#= makeClassStatic ? "static" : "" #> T Load<T>(<#=enumName#> resource)
+		public T Load<T>(<#=enumName#> resource)
 		{
 			return AssetLoad<T>(<#=mapperName#>[resource]);
 		}
@@ -54,13 +54,13 @@ namespace <#= namespaceName #>
 		/// <summary>
 		/// Load an asset using its path
 		/// </summary>
-		private <#= makeClassStatic ? "static" : "" #> T AssetLoad<T>(string guid)
+		private T AssetLoad<T>(string guid)
 		{
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			var value = Resources.Load(path);
 			return (T)Convert.ChangeType(value, typeof(T));
 		}
-    
+	}
 		/// <summary>
 		/// Enum indicating the available assets for loading using <#= className #> load function
 		/// </summary>
@@ -70,7 +70,6 @@ namespace <#= namespaceName #>
 	[Description("<#=item.name#>")]
 			<#=string.Format("{0},", getEnumName(item))#>
 		<#}#>}
-	}
 }
 
 <#+
@@ -82,7 +81,6 @@ namespace <#= namespaceName #>
 	string saveLocation;
 	string itemNamePrefix;
     bool itemNameToUpper;
-	bool makeClassStatic;
 
 	string getEnumName(FileItemDescriptor item)
 	{
@@ -100,8 +98,7 @@ namespace <#= namespaceName #>
 			t4.mapperName = descriptor.MapperName;
 			t4.saveLocation = descriptor.saveLocation;
 			t4.itemNamePrefix = descriptor.itemNamePrefix;
-			t4.itemNameToUpper = descriptor.itemNameToUpper; 
-			t4.makeClassStatic = descriptor.staticClass;
+			t4.itemNameToUpper = descriptor.itemNameToUpper;
 			t4.items = items;
 
             var fileName = string.Format("./{0}/{1}.cs", t4.saveLocation, t4.className);
