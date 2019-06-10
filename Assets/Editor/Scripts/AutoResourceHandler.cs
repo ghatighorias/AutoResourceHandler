@@ -36,22 +36,20 @@ namespace AutoAssetLoader
                 itemNamePrefix = "ITEM_",
                 itemNameToUpper = true,
                 seperateEnumForPrefabs = true,
-                seperateEnumPerFolder = false
+                seperateEnumPerFolder = false,
+                staticClass = false
             };
 
             loadSettingsFinished = true;
         }
 
-        public static async Task Generate()
+        public static void Generate()
         {
             try
             {
-                var foundItems = await GetFileItems("*prefab");
+                var foundItems = GetFileItems("*prefab");
 
-                foreach (var item in foundItems)
-                {
-                    Debug.Log(item.path);
-                }
+                Assets.Editor.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(foundItems);
 
                 AssetDatabase.Refresh();
             }
@@ -62,15 +60,10 @@ namespace AutoAssetLoader
 
             return;
         }
-
-        async static Task<List<FileItemDescriptor>> GetFileItems(string searchTerm)
+        
+        static List<FileItemDescriptor> GetFileItems(string searchTerm)
         {
-            List<FileItemDescriptor> pathList = new List<FileItemDescriptor>();
-
-            await Task.Run(() =>
-            {
-                var foundFiles = Directory.EnumerateFiles("Assets/Resources", $"{searchTerm}", SearchOption.AllDirectories)
-                        //.Where((path) => Path.GetExtension(path) == ".prefab")
+            return Directory.EnumerateFiles("Assets/Resources", $"{searchTerm}", SearchOption.AllDirectories)
                         .ToList()
                         .ConvertAll<FileItemDescriptor>((path) => new FileItemDescriptor()
                         {
@@ -78,11 +71,8 @@ namespace AutoAssetLoader
                             name = Path.GetFileNameWithoutExtension(path),
                             directory = Path.GetDirectoryName(path),
                             guid = AssetDatabase.AssetPathToGUID(path)
-                        });
-
-                pathList.AddRange(foundFiles);
-            });
-            return pathList;
+                        })
+                        .ToList();
         }
     }
 }

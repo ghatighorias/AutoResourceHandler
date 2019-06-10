@@ -18,6 +18,7 @@ namespace AutoAssetLoader
         public bool itemNameToUpper;
         public bool seperateEnumForPrefabs;
         public bool seperateEnumPerFolder;
+        public bool staticClass;
     }
 
     /// <summary>

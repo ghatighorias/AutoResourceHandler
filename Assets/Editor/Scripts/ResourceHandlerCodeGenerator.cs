@@ -39,42 +39,57 @@ namespace Assets.Editor.Scripts
 
 using System;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEditor;
 using AutoAssetLoader;
+using System.Collections.Generic;
 
 namespace AutoAssetLoader 
 {
-	public class ");
+	public ");
             
-            #line 22 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 23 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" class ");
+            
+            #line 23 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
-            this.Write("\r\n\t{\r\n\t\tprivate static Dictionary<");
+            this.Write("\r\n\t{\r\n\t\t");
             
-            #line 24 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 25 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" Dictionary<");
+            
+            #line 25 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(", string> ");
             
-            #line 24 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 25 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
             #line hidden
             this.Write(" = new Dictionary<");
             
-            #line 24 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 25 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(", string>()\r\n\t\t{\r\n\t\t\t");
             
-            #line 26 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 27 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
  foreach(var item in items)
 			{
             
@@ -82,77 +97,106 @@ namespace AutoAssetLoader
             #line hidden
             this.Write("\t\t\t\t\t{");
             
-            #line 28 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 29 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 28 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 29 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(getEnumName(item.name)));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 28 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 29 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.guid));
             
             #line default
             #line hidden
             this.Write("\"},\r\n\t\t\t");
             
-            #line 29 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 30 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
 }
             
             #line default
             #line hidden
-            this.Write("\t\t};\r\n    \r\n\t\tpublic int ResourceCount { get { return ");
+            this.Write("\t\t};\r\n    \r\n\t\tpublic ");
             
-            #line 32 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 33 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" int ResourceCount { get { return ");
+            
+            #line 33 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
             #line hidden
-            this.Write(".Count; } }\r\n\r\n\t\tpublic bool ContainsGuid(string guid)\r\n\t\t{\r\n\t\t\treturn ");
+            this.Write(".Count; } }\r\n\r\n\t\tpublic ");
             
-            #line 36 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 35 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" bool ContainsGuid(string guid)\r\n\t\t{\r\n\t\t\treturn ");
+            
+            #line 37 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
             #line hidden
             this.Write(".ContainsValue(guid);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Loads a game object from usi" +
-                    "ng its mapped enum\r\n\t\t/// </summary>\r\n\t\tpublic static GameObject Load(");
+                    "ng its mapped enum\r\n\t\t/// </summary>\r\n\t\tpublic ");
             
-            #line 42 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 43 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" GameObject Load(");
+            
+            #line 43 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(" resource)\r\n\t\t{\r\n\t\t\treturn Load<GameObject>(resource);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t" +
-                    "\t/// Loads an asset from using its mapped enum\r\n\t\t/// </summary>    \r\n\t\tpublic s" +
-                    "tatic T Load<T>(");
+                    "\t/// Loads an asset from using its mapped enum\r\n\t\t/// </summary>    \r\n\t\tpublic ");
             
-            #line 50 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 51 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(" T Load<T>(");
+            
+            #line 51 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write(" resource)\r\n\t\t{\r\n\t\t\treturn AssetLoad<T>(");
             
-            #line 52 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 53 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(mapperName));
             
             #line default
             #line hidden
-            this.Write(@"[resource]);
-		}
-
-		/// <summary>
-		/// Load an asset using its path
-		/// </summary>
-		private static T AssetLoad<T>(string guid)
+            this.Write("[resource]);\r\n\t\t}\r\n\r\n\t\t/// <summary>\r\n\t\t/// Load an asset using its path\r\n\t\t/// <" +
+                    "/summary>\r\n\t\tprivate ");
+            
+            #line 59 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : ""));
+            
+            #line default
+            #line hidden
+            this.Write(@" T AssetLoad<T>(string guid)
 		{
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			var value = Resources.Load(path);
@@ -162,35 +206,35 @@ namespace AutoAssetLoader
 		/// <summary>
 		/// Enum indicating the available assets for loading using ");
             
-            #line 66 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 67 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" load function\r\n\t\t/// </summary>\r\n\t\tpublic enum ");
             
-            #line 68 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 69 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t{\r\n\t\t\t");
             
-            #line 70 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 71 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
  foreach(var item in items) {
             
             #line default
             #line hidden
             this.Write("\t\t\t\t");
             
-            #line 71 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 72 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", getEnumName(item.name))));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t\t");
             
-            #line 72 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+            #line 73 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
 }
             
             #line default
@@ -199,7 +243,7 @@ namespace AutoAssetLoader
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 77 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
+        #line 78 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
 
     List<FileItemDescriptor> items = new List<FileItemDescriptor>();
 	string className;
@@ -208,6 +252,7 @@ namespace AutoAssetLoader
 	string saveLocation;
 	string itemNamePrefix;
     bool itemNameToUpper;
+	bool makeClassStatic;
 
 	string getEnumName(string name)
 	{
@@ -225,6 +270,7 @@ namespace AutoAssetLoader
 			t4.saveLocation = AutoResourceHandler.ClassDescriptor.saveLocation;
 			t4.itemNamePrefix = AutoResourceHandler.ClassDescriptor.itemNamePrefix;
 			t4.itemNameToUpper = AutoResourceHandler.ClassDescriptor.itemNameToUpper; 
+			t4.makeClassStatic = AutoResourceHandler.ClassDescriptor.staticClass;
 			t4.items = items;
 
             var fileName = string.Format("./{0}/{1}.cs", t4.saveLocation, t4.className);

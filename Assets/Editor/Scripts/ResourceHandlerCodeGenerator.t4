@@ -14,14 +14,15 @@
 
 using System;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEditor;
 using AutoAssetLoader;
+using System.Collections.Generic;
 
 namespace AutoAssetLoader 
 {
-	public class <#= className #>
+	public <#= makeClassStatic ? "static" : "" #> class <#= className #>
 	{
-		private static Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
+		<#= makeClassStatic ? "static" : "" #> Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 			<# foreach(var item in items)
 			{#>
@@ -29,9 +30,9 @@ namespace AutoAssetLoader
 			<#}#>
 		};
     
-		public int ResourceCount { get { return <#=mapperName#>.Count; } }
+		public <#= makeClassStatic ? "static" : "" #> int ResourceCount { get { return <#=mapperName#>.Count; } }
 
-		public bool ContainsGuid(string guid)
+		public <#= makeClassStatic ? "static" : "" #> bool ContainsGuid(string guid)
 		{
 			return <#=mapperName#>.ContainsValue(guid);
 		}
@@ -39,7 +40,7 @@ namespace AutoAssetLoader
 		/// <summary>
 		/// Loads a game object from using its mapped enum
 		/// </summary>
-		public static GameObject Load(<#=enumName#> resource)
+		public <#= makeClassStatic ? "static" : "" #> GameObject Load(<#=enumName#> resource)
 		{
 			return Load<GameObject>(resource);
 		}
@@ -47,7 +48,7 @@ namespace AutoAssetLoader
 		/// <summary>
 		/// Loads an asset from using its mapped enum
 		/// </summary>    
-		public static T Load<T>(<#=enumName#> resource)
+		public <#= makeClassStatic ? "static" : "" #> T Load<T>(<#=enumName#> resource)
 		{
 			return AssetLoad<T>(<#=mapperName#>[resource]);
 		}
@@ -55,7 +56,7 @@ namespace AutoAssetLoader
 		/// <summary>
 		/// Load an asset using its path
 		/// </summary>
-		private static T AssetLoad<T>(string guid)
+		private <#= makeClassStatic ? "static" : "" #> T AssetLoad<T>(string guid)
 		{
 			var path = AssetDatabase.GUIDToAssetPath(guid);
 			var value = Resources.Load(path);
@@ -82,6 +83,7 @@ namespace AutoAssetLoader
 	string saveLocation;
 	string itemNamePrefix;
     bool itemNameToUpper;
+	bool makeClassStatic;
 
 	string getEnumName(string name)
 	{
@@ -99,6 +101,7 @@ namespace AutoAssetLoader
 			t4.saveLocation = AutoResourceHandler.ClassDescriptor.saveLocation;
 			t4.itemNamePrefix = AutoResourceHandler.ClassDescriptor.itemNamePrefix;
 			t4.itemNameToUpper = AutoResourceHandler.ClassDescriptor.itemNameToUpper; 
+			t4.makeClassStatic = AutoResourceHandler.ClassDescriptor.staticClass;
 			t4.items = items;
 
             var fileName = string.Format("./{0}/{1}.cs", t4.saveLocation, t4.className);

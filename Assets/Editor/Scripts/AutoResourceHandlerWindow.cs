@@ -27,12 +27,12 @@ namespace AutoAssetLoader
         }
 
         [MenuItem("Assets/Autoresoruce/Manual Generate")]
-        static async Task ManualGenerate()
+        static void ManualGenerate()
         {
-            await AutoResourceHandler.Generate();
+            AutoResourceHandler.Generate();
         }
 
-        async void OnGUI()
+        void OnGUI()
         {
             CreateTextInput("Namespace", ref AutoResourceHandler.ClassDescriptor.namespaceName, new Rect(10, 10, 100, 15));
             CreateTextInput("Class name", ref AutoResourceHandler.ClassDescriptor.className, new Rect(10, 30, 100, 15));
@@ -51,7 +51,7 @@ namespace AutoAssetLoader
             Rect buttonRect = new Rect(50, 170, 150, 20);
             if (GUI.Button(buttonRect, "Update and Generate"))
             {
-                await AutoResourceHandler.Generate();
+                AutoResourceHandler.Generate();
                 
                 this.Close();
             }
