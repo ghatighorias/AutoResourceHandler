@@ -7,14 +7,12 @@ using System.Collections.Generic;
 
 namespace AutoAssetLoader
 {
-    public class AutoResourceHandler
+    public partial class AutoAssetLoader
     {
         static bool loadSettingsFinished = false;
 
         public static bool MonitorActive = false;
         public static ClassDescriptor ClassDescriptor { get; private set; }
-
-
 
         public static void SaveSettings()
         {
@@ -64,7 +62,7 @@ namespace AutoAssetLoader
             {
                 var foundItems = GetFileItems("*prefab");
 
-                Assets.Editor.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(foundItems);
+                Assets.Editor.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(foundItems, ClassDescriptor);
 
                 AssetDatabase.Refresh();
             }
@@ -95,32 +93,32 @@ namespace AutoAssetLoader
             return foundFiles;
         }
     }
-}
 
-/// <summary>
-/// This class describes the settings of the asset loader code generator
-/// </summary>
-public class ClassDescriptor
-{
-    public string saveLocation;
-    public string namespaceName;
-    public string className;
-    public string EnumName { get { return string.Format("{0}Enum", className); } }
-    public string MapperName { get { return string.Format("{0}Mapper", className); } }
-    public string itemNamePrefix;
-    public bool itemNameToUpper;
-    public bool seperateEnumForPrefabs;
-    public bool seperateEnumPerFolder;
-    public bool staticClass;
-}
+    /// <summary>
+    /// This class describes the settings of the asset loader code generator
+    /// </summary>
+    public class ClassDescriptor
+    {
+        public string saveLocation;
+        public string namespaceName;
+        public string className;
+        public string EnumName { get { return string.Format("{0}Enum", className); } }
+        public string MapperName { get { return string.Format("{0}Mapper", className); } }
+        public string itemNamePrefix;
+        public bool itemNameToUpper;
+        public bool seperateEnumForPrefabs;
+        public bool seperateEnumPerFolder;
+        public bool staticClass;
+    }
 
-/// <summary>
-/// This class describes a candidate item for assetloader code generator
-/// </summary>
-public class FileItemDescriptor
-{
-    public string name;
-    public string path;
-    public string directory;
-    public string guid;
+    /// <summary>
+    /// This class describes a candidate item for assetloader code generator
+    /// </summary>
+    public class FileItemDescriptor
+    {
+        public string name;
+        public string path;
+        public string guid;
+        public string directory;
+    }
 }

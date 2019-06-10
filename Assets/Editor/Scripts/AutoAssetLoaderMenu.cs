@@ -5,7 +5,7 @@ using System;
 
 namespace AutoAssetLoader
 {
-    public class AutoResourceHandlerWindow : EditorWindow
+    public partial class AutoAssetLoader : EditorWindow
     {
         static readonly string windowName = "Auto resource generator Settings";
         static readonly Vector2 settingsWindowSize = new Vector2(250, 250);
@@ -13,9 +13,9 @@ namespace AutoAssetLoader
         [MenuItem("Assets/Autoresoruce/Settings")]
         static void ShowSettings()
         {
-            AutoResourceHandler.LoadSettings();
-            
-            AutoResourceHandlerWindow window = CreateInstance<AutoResourceHandlerWindow>();
+            LoadSettings();
+
+            var window = CreateInstance<AutoAssetLoader>();
 
             if (window)
             {
@@ -30,35 +30,35 @@ namespace AutoAssetLoader
         [MenuItem("Assets/Autoresoruce/Manual Generate")]
         static void ManualGenerate()
         {
-            AutoResourceHandler.Generate();
+            Generate();
         }
 
         void OnGUI()
         {
-            CreateTextInput("Namespace", ref AutoResourceHandler.ClassDescriptor.namespaceName, new Rect(10, 10, 100, 15));
-            CreateTextInput("Class name", ref AutoResourceHandler.ClassDescriptor.className, new Rect(10, 30, 100, 15));
-            CreateTextInput("Save location", ref AutoResourceHandler.ClassDescriptor.saveLocation, new Rect(10, 50, 100, 15), dragDrop: true);
-            CreateTextInput("Item name prefix", ref AutoResourceHandler.ClassDescriptor.itemNamePrefix, new Rect(10, 70, 100, 15));
+            CreateTextInput("Namespace", ref ClassDescriptor.namespaceName, new Rect(10, 10, 100, 15));
+            CreateTextInput("Class name", ref ClassDescriptor.className, new Rect(10, 30, 100, 15));
+            CreateTextInput("Save location", ref ClassDescriptor.saveLocation, new Rect(10, 50, 100, 15), dragDrop: true);
+            CreateTextInput("Item name prefix", ref ClassDescriptor.itemNamePrefix, new Rect(10, 70, 100, 15));
 
-            AutoResourceHandler.ClassDescriptor.itemNameToUpper = GUI.Toggle(new Rect(10, 90, 250, 20), AutoResourceHandler.ClassDescriptor.itemNameToUpper, "Change Item names to uppercase");
+            ClassDescriptor.itemNameToUpper = GUI.Toggle(new Rect(10, 90, 250, 20), ClassDescriptor.itemNameToUpper, "Change Item names to uppercase");
             // the code is not implemented for this section yet
             GUI.enabled = false;
-            AutoResourceHandler.ClassDescriptor.seperateEnumForPrefabs = GUI.Toggle(new Rect(10, 110, 250, 20), AutoResourceHandler.ClassDescriptor.seperateEnumForPrefabs, "Create a seperate enum for prefabs");
-            AutoResourceHandler.ClassDescriptor.seperateEnumPerFolder = GUI.Toggle(new Rect(10, 130, 250, 20), AutoResourceHandler.ClassDescriptor.seperateEnumPerFolder, "Create seperate enum per each folder");
+            ClassDescriptor.seperateEnumForPrefabs = GUI.Toggle(new Rect(10, 110, 250, 20), ClassDescriptor.seperateEnumForPrefabs, "Create a seperate enum for prefabs");
+            ClassDescriptor.seperateEnumPerFolder = GUI.Toggle(new Rect(10, 130, 250, 20), ClassDescriptor.seperateEnumPerFolder, "Create seperate enum per each folder");
             GUI.enabled = true;
 
-            AutoResourceHandler.ClassDescriptor.staticClass = GUI.Toggle(new Rect(10, 150, 250, 20), AutoResourceHandler.ClassDescriptor.staticClass, "Make resource handler static");
+            ClassDescriptor.staticClass = GUI.Toggle(new Rect(10, 150, 250, 20), ClassDescriptor.staticClass, "Make resource handler static");
 
-            AutoResourceHandler.MonitorActive = GUI.Toggle(new Rect(10, 170, 250, 20), AutoResourceHandler.MonitorActive, "Auto refresh if resources changed");
+            MonitorActive = GUI.Toggle(new Rect(10, 170, 250, 20), MonitorActive, "Auto refresh if resources changed");
 
             CreateButton("Save and generate", new Rect(50, 190, 150, 20), () => {
-                AutoResourceHandler.SaveSettings();
-                AutoResourceHandler.Generate();
+                SaveSettings();
+                Generate();
                 this.Close();
             });
 
             CreateButton("Save and close", new Rect(50, 220, 150, 20), () => {
-                AutoResourceHandler.SaveSettings();
+                SaveSettings();
                 this.Close();
             });
         }
@@ -88,7 +88,7 @@ namespace AutoAssetLoader
                     if (Event.current.type == EventType.DragPerform)
                     {
                         if (DragAndDrop.paths.Length > 0)
-                            AutoResourceHandler.ClassDescriptor.saveLocation = DragAndDrop.paths[0];
+                            ClassDescriptor.saveLocation = DragAndDrop.paths[0];
                     }
                 }
             }

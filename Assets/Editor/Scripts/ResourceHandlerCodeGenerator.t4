@@ -88,17 +88,17 @@ namespace AutoAssetLoader
 		return itemNameToUpper ? fullName.ToUpper() : fullName;
 	}
 
-	public static void GenerateAndSave(List<FileItemDescriptor> items)
+	public static void GenerateAndSave(List<FileItemDescriptor> items, ClassDescriptor descriptor)
 	{
 	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
     
-			t4.className = AutoResourceHandler.ClassDescriptor.className;
-			t4.enumName = AutoResourceHandler.ClassDescriptor.EnumName;
-			t4.mapperName = AutoResourceHandler.ClassDescriptor.MapperName;
-			t4.saveLocation = AutoResourceHandler.ClassDescriptor.saveLocation;
-			t4.itemNamePrefix = AutoResourceHandler.ClassDescriptor.itemNamePrefix;
-			t4.itemNameToUpper = AutoResourceHandler.ClassDescriptor.itemNameToUpper; 
-			t4.makeClassStatic = AutoResourceHandler.ClassDescriptor.staticClass;
+			t4.className = descriptor.className;
+			t4.enumName = descriptor.EnumName;
+			t4.mapperName = descriptor.MapperName;
+			t4.saveLocation = descriptor.saveLocation;
+			t4.itemNamePrefix = descriptor.itemNamePrefix;
+			t4.itemNameToUpper = descriptor.itemNameToUpper; 
+			t4.makeClassStatic = descriptor.staticClass;
 			t4.items = items;
 
             var fileName = string.Format("./{0}/{1}.cs", t4.saveLocation, t4.className);
