@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor;
-using System.Threading.Tasks;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System;
+using UnityEngine;
+using UnityEditor;
+using System.Collections.Generic;
 
 namespace AutoAssetLoader
 {
@@ -63,7 +62,7 @@ namespace AutoAssetLoader
         
         static List<FileItemDescriptor> GetFileItems(string searchTerm)
         {
-            return Directory.EnumerateFiles("Assets/Resources", $"{searchTerm}", SearchOption.AllDirectories)
+            var foundFiles = Directory.EnumerateFiles("Assets/Resources", $"{searchTerm}", SearchOption.AllDirectories)
                         .ToList()
                         .ConvertAll<FileItemDescriptor>((path) => new FileItemDescriptor()
                         {
@@ -73,6 +72,39 @@ namespace AutoAssetLoader
                             guid = AssetDatabase.AssetPathToGUID(path)
                         })
                         .ToList();
+
+            if (foundFiles.Count == 0)
+                throw new FileNotFoundException($"No asset was found with the search term: {searchTerm}");
+
+            return foundFiles;
         }
     }
+}
+
+/// <summary>
+/// This class describes the settings of the asset loader code generator
+/// </summary>
+public class ClassDescriptor
+{
+    public string saveLocation;
+    public string namespaceName;
+    public string className;
+    public string EnumName { get { return string.Format("{0}Enum", className); } }
+    public string MapperName { get { return string.Format("{0}Mapper", className); } }
+    public string itemNamePrefix;
+    public bool itemNameToUpper;
+    public bool seperateEnumForPrefabs;
+    public bool seperateEnumPerFolder;
+    public bool staticClass;
+}
+
+/// <summary>
+/// This class describes a candidate item for assetloader code generator
+/// </summary>
+public class FileItemDescriptor
+{
+    public string name;
+    public string path;
+    public string directory;
+    public string guid;
 }

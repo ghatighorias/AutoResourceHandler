@@ -22,13 +22,11 @@ namespace AutoAssetLoader
 {
 	public <#= makeClassStatic ? "static" : "" #> class <#= className #>
 	{
-		<#= makeClassStatic ? "static" : "" #> Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
+		<#= makeClassStatic ? "static" : " " #>Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
-			<# foreach(var item in items)
-			{#>
-					{<#=enumName#>.<#=getEnumName(item.name)#>, "<#=item.guid#>"},
-			<#}#>
-		};
+		<# foreach(var item in items) {#>
+	{<#=enumName#>.<#=getEnumName(item.name)#>, "<#=item.guid#>"},
+		<#}#>};
     
 		public <#= makeClassStatic ? "static" : "" #> int ResourceCount { get { return <#=mapperName#>.Count; } }
 
@@ -68,10 +66,9 @@ namespace AutoAssetLoader
 		/// </summary>
 		public enum <#= enumName #>
 		{
-			<# foreach(var item in items) {#>
-				<#=string.Format("{0},", getEnumName(item.name))#>
-			<#}#>
-		}
+		<# foreach(var item in items) {#>
+	<#=string.Format("{0},", getEnumName(item.name))#>
+		<#}#>}
 	}
 }
 
