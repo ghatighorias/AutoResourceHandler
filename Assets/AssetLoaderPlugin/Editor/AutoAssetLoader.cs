@@ -15,7 +15,7 @@ namespace AutoAssetLoader
         public static ClassDescriptor ClassDescriptor { get; private set; }
 
         public static void SaveSettings()
-        {
+        { 
             try
             {
                 EditorPrefs.SetString("AutoAssetLoader_ClassDescriptor_Namespace", ClassDescriptor.namespaceName);
@@ -52,7 +52,8 @@ namespace AutoAssetLoader
             };
 
             MonitorActive = EditorPrefs.GetBool("AutoAssetLoader_Monitor_Active", false);
-
+            _ResourHandler d;
+            d.
             loadSettingsFinished = true;
         }
 
@@ -62,8 +63,8 @@ namespace AutoAssetLoader
             {
                 var foundItems = GetFileItems("*prefab");
 
-                Assets.Editor.Scripts.ResourceHandlerCodeGenerator.GenerateAndSave(foundItems, ClassDescriptor);
-
+                Assets.AssetLoaderPlugin.Editor.ResourceHandlerCodeGenerator.GenerateAndSave(foundItems, ClassDescriptor);
+                
                 AssetDatabase.Refresh();
             }
             catch (Exception e)

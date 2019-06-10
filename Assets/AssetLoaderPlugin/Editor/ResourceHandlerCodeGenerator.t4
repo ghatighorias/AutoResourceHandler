@@ -15,51 +15,19 @@
 using System;
 using UnityEngine;
 using UnityEditor;
+using AutoAssetLoader;
 using System.ComponentModel;
 using System.Collections.Generic;
 
 namespace <#= namespaceName #> 
 {
-	public class <#= className #>
+	public class <#= className #> : ResourceHandlerBase<<#=enumName#>>
 	{
-		Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
+		protected override Dictionary<<#=enumName#>, string> _ResourHandlerMapper { get; set; } = new Dictionary<<#=enumName#>, string>()
 		{
 		<# foreach(var item in items) {#>
 	{<#=enumName#>.<#=getEnumName(item)#>, "<#=item.guid#>"},
 		<#}#>};
-    
-		public int ResourceCount { get { return <#=mapperName#>.Count; } }
-
-		public bool ContainsGuid(string guid)
-		{
-			return <#=mapperName#>.ContainsValue(guid);
-		}
-
-		/// <summary>
-		/// Loads a game object from using its mapped enum
-		/// </summary>
-		public GameObject Load(<#=enumName#> resource)
-		{
-			return Load<GameObject>(resource);
-		}
-
-		/// <summary>
-		/// Loads an asset from using its mapped enum
-		/// </summary>    
-		public T Load<T>(<#=enumName#> resource)
-		{
-			return AssetLoad<T>(<#=mapperName#>[resource]);
-		}
-
-		/// <summary>
-		/// Load an asset using its path
-		/// </summary>
-		private T AssetLoad<T>(string guid)
-		{
-			var path = AssetDatabase.GUIDToAssetPath(guid);
-			var value = Resources.Load(path);
-			return (T)Convert.ChangeType(value, typeof(T));
-		}
 	}
 		/// <summary>
 		/// Enum indicating the available assets for loading using <#= className #> load function
@@ -77,7 +45,6 @@ namespace <#= namespaceName #>
 	string namespaceName;
 	string className;
 	string enumName;
-	string mapperName;
 	string saveLocation;
 	string itemNamePrefix;
     bool itemNameToUpper;
@@ -95,7 +62,6 @@ namespace <#= namespaceName #>
 		    t4.namespaceName = descriptor.namespaceName;
 			t4.className = descriptor.className;
 			t4.enumName = descriptor.EnumName;
-			t4.mapperName = descriptor.MapperName;
 			t4.saveLocation = descriptor.saveLocation;
 			t4.itemNamePrefix = descriptor.itemNamePrefix;
 			t4.itemNameToUpper = descriptor.itemNameToUpper;
