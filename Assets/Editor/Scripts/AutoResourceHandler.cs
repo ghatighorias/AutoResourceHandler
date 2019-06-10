@@ -20,15 +20,15 @@ namespace AutoAssetLoader
         {
             try
             {
-                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_Namespace", ClassDescriptor.namespaceName);
-                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_ClassName", ClassDescriptor.className);
-                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_SaveLocation", ClassDescriptor.saveLocation);
-                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", ClassDescriptor.itemNamePrefix);
-                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", Convert.ToInt32(ClassDescriptor.itemNameToUpper));
-                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", Convert.ToInt32(ClassDescriptor.seperateEnumForPrefabs));
-                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", Convert.ToInt32(ClassDescriptor.seperateEnumPerFolder));
-                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_StaticClass", Convert.ToInt32(ClassDescriptor.staticClass));
-                PlayerPrefs.SetInt("AutoAssetLoader_Monitor_Active", Convert.ToInt32(MonitorActive));
+                EditorPrefs.SetString("AutoAssetLoader_ClassDescriptor_Namespace", ClassDescriptor.namespaceName);
+                EditorPrefs.SetString("AutoAssetLoader_ClassDescriptor_ClassName", ClassDescriptor.className);
+                EditorPrefs.SetString("AutoAssetLoader_ClassDescriptor_SaveLocation", ClassDescriptor.saveLocation);
+                EditorPrefs.SetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", ClassDescriptor.itemNamePrefix);
+                EditorPrefs.SetBool("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", ClassDescriptor.itemNameToUpper);
+                EditorPrefs.SetBool("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", ClassDescriptor.seperateEnumForPrefabs);
+                EditorPrefs.SetBool("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", ClassDescriptor.seperateEnumPerFolder);
+                EditorPrefs.SetBool("AutoAssetLoader_ClassDescriptor_StaticClass", ClassDescriptor.staticClass);
+                EditorPrefs.SetBool("AutoAssetLoader_Monitor_Active", MonitorActive);
             }
             catch (Exception e)
             {
@@ -43,17 +43,17 @@ namespace AutoAssetLoader
 
             ClassDescriptor = new ClassDescriptor()
             {
-                namespaceName = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_Namespace", "AutoAssetLoader"),
-                className = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_ClassName", "_ResourHandler"),
-                saveLocation = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_SaveLocation", "Scripts"),
-                itemNamePrefix = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", "ITEM_"),
-                itemNameToUpper = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", 1)),
-                seperateEnumForPrefabs = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", 1)),
-                seperateEnumPerFolder = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", 0)),
-                staticClass = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_StaticClass", 0))
+                namespaceName = EditorPrefs.GetString("AutoAssetLoader_ClassDescriptor_Namespace", "AutoAssetLoader"),
+                className = EditorPrefs.GetString("AutoAssetLoader_ClassDescriptor_ClassName", "_ResourHandler"),
+                saveLocation = EditorPrefs.GetString("AutoAssetLoader_ClassDescriptor_SaveLocation", "Scripts"),
+                itemNamePrefix = EditorPrefs.GetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", "ITEM_"),
+                itemNameToUpper = EditorPrefs.GetBool("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", true),
+                seperateEnumForPrefabs = EditorPrefs.GetBool("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", true),
+                seperateEnumPerFolder = EditorPrefs.GetBool("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", false),
+                staticClass = EditorPrefs.GetBool("AutoAssetLoader_ClassDescriptor_StaticClass", false)
             };
 
-            MonitorActive = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_Monitor_Active", 0));
+            MonitorActive = EditorPrefs.GetBool("AutoAssetLoader_Monitor_Active", false);
 
             loadSettingsFinished = true;
         }
