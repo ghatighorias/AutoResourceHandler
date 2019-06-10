@@ -62,7 +62,7 @@ namespace AutoAssetLoader
             this.Write("\r\n\t{\r\n\t\t");
             
             #line 25 "D:\Unity\AutoResourceHandler\Assets\Editor\Scripts\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static" : " "));
+            this.Write(this.ToStringHelper.ToStringWithCulture(makeClassStatic ? "static " : " "));
             
             #line default
             #line hidden

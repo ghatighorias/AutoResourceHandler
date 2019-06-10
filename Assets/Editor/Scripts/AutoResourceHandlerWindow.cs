@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Threading.Tasks;
+using System;
 
 namespace AutoAssetLoader
 {
@@ -38,7 +39,7 @@ namespace AutoAssetLoader
             CreateTextInput("Class name", ref AutoResourceHandler.ClassDescriptor.className, new Rect(10, 30, 100, 15));
             CreateTextInput("Save location", ref AutoResourceHandler.ClassDescriptor.saveLocation, new Rect(10, 50, 100, 15), dragDrop: true);
             CreateTextInput("Item name prefix", ref AutoResourceHandler.ClassDescriptor.itemNamePrefix, new Rect(10, 70, 100, 15));
-            
+
             AutoResourceHandler.ClassDescriptor.itemNameToUpper = GUI.Toggle(new Rect(10, 90, 250, 20), AutoResourceHandler.ClassDescriptor.itemNameToUpper, "Change Item names to uppercase");
             // the code is not implemented for this section yet
             GUI.enabled = false;
@@ -48,15 +49,24 @@ namespace AutoAssetLoader
 
             AutoResourceHandler.ClassDescriptor.staticClass = GUI.Toggle(new Rect(10, 150, 250, 20), AutoResourceHandler.ClassDescriptor.staticClass, "Make resource handler static");
 
-            AutoResourceHandler.Active = GUI.Toggle(new Rect(10, 170, 250, 20), AutoResourceHandler.Active, "Auto refresh if resources changed");
+            AutoResourceHandler.MonitorActive = GUI.Toggle(new Rect(10, 170, 250, 20), AutoResourceHandler.MonitorActive, "Auto refresh if resources changed");
 
-            Rect buttonRect = new Rect(50, 190, 150, 20);
-            if (GUI.Button(buttonRect, "Update and Generate"))
-            {
+            CreateButton("Save and generate", new Rect(50, 190, 150, 20), () => {
+                AutoResourceHandler.SaveSettings();
                 AutoResourceHandler.Generate();
-                
                 this.Close();
-            }
+            });
+
+            CreateButton("Save and close", new Rect(50, 220, 150, 20), () => {
+                AutoResourceHandler.SaveSettings();
+                this.Close();
+            });
+        }
+
+        private void CreateButton(string label, Rect buttonRect, Action action)
+        {
+            if (GUI.Button(buttonRect, label))
+                action?.Invoke();
         }
 
         void CreateTextInput(string label, ref string value, Rect rect, float inputMargin = 20, bool dragDrop = false)

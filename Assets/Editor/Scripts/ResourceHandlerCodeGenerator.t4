@@ -22,7 +22,7 @@ namespace AutoAssetLoader
 {
 	public <#= makeClassStatic ? "static" : "" #> class <#= className #>
 	{
-		<#= makeClassStatic ? "static" : " " #>Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
+		<#= makeClassStatic ? "static " : " " #>Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 		<# foreach(var item in items) {#>
 	{<#=enumName#>.<#=getEnumName(item.name)#>, "<#=item.guid#>"},

@@ -11,33 +11,49 @@ namespace AutoAssetLoader
     {
         static bool loadSettingsFinished = false;
 
-        public static bool Active = false;
+        public static bool MonitorActive = false;
         public static ClassDescriptor ClassDescriptor { get; private set; }
 
-        public void SaveSettings()
+
+
+        public static void SaveSettings()
         {
-            //save the updated data to a jsonfile for next times that is being loaded
+            try
+            {
+                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_Namespace", ClassDescriptor.namespaceName);
+                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_ClassName", ClassDescriptor.className);
+                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_SaveLocation", ClassDescriptor.saveLocation);
+                PlayerPrefs.SetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", ClassDescriptor.itemNamePrefix);
+                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", Convert.ToInt32(ClassDescriptor.itemNameToUpper));
+                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", Convert.ToInt32(ClassDescriptor.seperateEnumForPrefabs));
+                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", Convert.ToInt32(ClassDescriptor.seperateEnumPerFolder));
+                PlayerPrefs.SetInt("AutoAssetLoader_ClassDescriptor_StaticClass", Convert.ToInt32(ClassDescriptor.staticClass));
+                PlayerPrefs.SetInt("AutoAssetLoader_Monitor_Active", Convert.ToInt32(MonitorActive));
+            }
+            catch (Exception e)
+            {
+                Debug.Log($"AutoAssetLoader Failed to save settings: {e.Message}");
+            }
         }
 
         public static void LoadSettings()
         {
             if (loadSettingsFinished)
                 return;
-            
-            //check if there is any previous data saved
-            // load if there is any
 
             ClassDescriptor = new ClassDescriptor()
             {
-                namespaceName = "AutoAssetLoader",
-                className = "_ResourHandler",
-                saveLocation = "Scripts",
-                itemNamePrefix = "ITEM_",
-                itemNameToUpper = true,
-                seperateEnumForPrefabs = true,
-                seperateEnumPerFolder = false,
-                staticClass = false
+                namespaceName = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_Namespace", "AutoAssetLoader"),
+                className = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_ClassName", "_ResourHandler"),
+                saveLocation = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_SaveLocation", "Scripts"),
+                itemNamePrefix = PlayerPrefs.GetString("AutoAssetLoader_ClassDescriptor_ItemNamePrefix", "ITEM_"),
+                itemNameToUpper = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_ItemNameToUpper", 1)),
+                seperateEnumForPrefabs = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumForPrefabs", 1)),
+                seperateEnumPerFolder = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_SeperateEnumPerFolder", 0)),
+                staticClass = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_ClassDescriptor_StaticClass", 0))
             };
+
+            MonitorActive = Convert.ToBoolean(PlayerPrefs.GetInt("AutoAssetLoader_Monitor_Active", 0));
 
             loadSettingsFinished = true;
         }

@@ -8,21 +8,27 @@ namespace AutoAssetLoader
     {
         static void OnWillCreateAsset(string assetName)
         {
-            var guid = AssetDatabase.AssetPathToGUID(assetName);
-            if (!string.IsNullOrWhiteSpace(guid))
+            if (AutoResourceHandler.MonitorActive)
             {
-                AutoResourceHandler.LoadSettings();
-                AutoResourceHandler.Generate();
+                var guid = AssetDatabase.AssetPathToGUID(assetName);
+                if (!string.IsNullOrWhiteSpace(guid))
+                {
+                    AutoResourceHandler.LoadSettings();
+                    AutoResourceHandler.Generate();
+                }
             }
         }
 
         static AssetDeleteResult OnWillDeleteAsset(string assetName, RemoveAssetOptions removeAssetOptions)
         {
-            var guid = AssetDatabase.AssetPathToGUID(assetName);
-            if (!string.IsNullOrWhiteSpace(guid))
+            if (AutoResourceHandler.MonitorActive)
             {
-                AutoResourceHandler.LoadSettings();
-                AutoResourceHandler.Generate();
+                var guid = AssetDatabase.AssetPathToGUID(assetName);
+                if (!string.IsNullOrWhiteSpace(guid))
+                {
+                    AutoResourceHandler.LoadSettings();
+                    AutoResourceHandler.Generate();
+                }
             }
 
             return AssetDeleteResult.DidNotDelete;
