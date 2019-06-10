@@ -15,17 +15,17 @@
 using System;
 using UnityEngine;
 using UnityEditor;
-using AutoAssetLoader;
+using System.ComponentModel;
 using System.Collections.Generic;
 
-namespace AutoAssetLoader 
+namespace <#= namespaceName #> 
 {
 	public <#= makeClassStatic ? "static" : "" #> class <#= className #>
 	{
 		<#= makeClassStatic ? "static " : " " #>Dictionary<<#=enumName#>, string> <#=mapperName#> = new Dictionary<<#=enumName#>, string>()
 		{
 		<# foreach(var item in items) {#>
-	{<#=enumName#>.<#=getEnumName(item.name)#>, "<#=item.guid#>"},
+	{<#=enumName#>.<#=getEnumName(item)#>, "<#=item.guid#>"},
 		<#}#>};
     
 		public <#= makeClassStatic ? "static" : "" #> int ResourceCount { get { return <#=mapperName#>.Count; } }
@@ -67,13 +67,15 @@ namespace AutoAssetLoader
 		public enum <#= enumName #>
 		{
 		<# foreach(var item in items) {#>
-	<#=string.Format("{0},", getEnumName(item.name))#>
+	[Description("<#=item.name#>")]
+			<#=string.Format("{0},", getEnumName(item))#>
 		<#}#>}
 	}
 }
 
 <#+
     List<FileItemDescriptor> items = new List<FileItemDescriptor>();
+	string namespaceName;
 	string className;
 	string enumName;
 	string mapperName;
@@ -82,16 +84,17 @@ namespace AutoAssetLoader
     bool itemNameToUpper;
 	bool makeClassStatic;
 
-	string getEnumName(string name)
+	string getEnumName(FileItemDescriptor item)
 	{
-		var fullName = $"{itemNamePrefix}{name}";
-		return itemNameToUpper ? fullName.ToUpper() : fullName;
+		var uniqueName = item.nameExist ? $"{item.NormalizedDirectory}_{item.NormalizedName}" : item.NormalizedName;
+		var prefixedName = $"{itemNamePrefix}{uniqueName}";
+		return itemNameToUpper ? prefixedName.ToUpper() : prefixedName;
 	}
 
 	public static void GenerateAndSave(List<FileItemDescriptor> items, ClassDescriptor descriptor)
 	{
 	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
-    
+		    t4.namespaceName = descriptor.namespaceName;
 			t4.className = descriptor.className;
 			t4.enumName = descriptor.EnumName;
 			t4.mapperName = descriptor.MapperName;

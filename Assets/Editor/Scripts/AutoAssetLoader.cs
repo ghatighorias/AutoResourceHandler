@@ -4,13 +4,13 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace AutoAssetLoader
 {
     public partial class AutoAssetLoader
     {
         static bool loadSettingsFinished = false;
-
         public static bool MonitorActive = false;
         public static ClassDescriptor ClassDescriptor { get; private set; }
 
@@ -90,7 +90,21 @@ namespace AutoAssetLoader
             if (foundFiles.Count == 0)
                 throw new FileNotFoundException($"No asset was found with the search term: {searchTerm}");
 
+            MarkExistingNames(foundFiles);
+
             return foundFiles;
+        }
+
+        /// <summary>
+        /// Mark the nameExist for the given items if there are repeatative names
+        /// </summary>
+        /// <param name="fileItems">List of items to check and mark</param>
+        static void MarkExistingNames(List<FileItemDescriptor> fileItems)
+        {
+            foreach (var fileItem in fileItems)
+            {
+                fileItem.nameExist = fileItems.Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
+            }
         }
     }
 
@@ -116,9 +130,22 @@ namespace AutoAssetLoader
     /// </summary>
     public class FileItemDescriptor
     {
+        static Regex nameNormalizerRegex = new Regex("([^a-zA-Z_0-9]+)");
+
         public string name;
+        public string NormalizedName { get { return GetNormalizedName(name); } }
         public string path;
         public string guid;
         public string directory;
+        public string NormalizedDirectory { get { return GetNormalizedName(directory); } }
+        public bool nameExist;
+
+        static string GetNormalizedName(string input)
+        {
+
+            return nameNormalizerRegex
+                .Replace(input, "_")
+                .Trim('_');
+        }
     }
 }
