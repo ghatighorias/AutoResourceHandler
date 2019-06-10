@@ -21,21 +21,13 @@ using System.Collections.Generic;
 
 namespace <#= namespaceName #> 
 {
-	public class <#= className #> : ResourceHandlerBase<<#=enumName#>>
-	{
-		protected override Dictionary<<#=enumName#>, string> _ResourHandlerMapper { get; set; } = new Dictionary<<#=enumName#>, string>()
-		{
-		<# foreach(var item in items) {#>
-	{<#=enumName#>.<#=getEnumName(item)#>, "<#=item.guid#>"},
-		<#}#>};
-	}
 		/// <summary>
 		/// Enum indicating the available assets for loading using <#= className #> load function
 		/// </summary>
 		public enum <#= enumName #>
 		{
 		<# foreach(var item in items) {#>
-	[Description("<#=item.name#>")]
+	[Description("<#=item.guid#>")]
 			<#=string.Format("{0},", getEnumName(item))#>
 		<#}#>}
 }

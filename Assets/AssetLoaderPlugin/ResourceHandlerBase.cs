@@ -1,29 +1,36 @@
 ﻿using System;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Reflection;
+using System.ComponentModel;
+
+using System.Linq;
 
 namespace AutoAssetLoader
 {
-    public abstract class ResourceHandlerBase<T>
+    public static class ResourceHandlerBase<T>
     {
-        protected abstract Dictionary<T, string> _ResourHandlerMapper { get; set; }
-
-        public int ResourceCount { get { return _ResourHandlerMapper.Count; } }
-
-        public ResourceHandlerBase()
+        static string GetEnumDescription(T value)
         {
-            _ResourHandlerMapper = new Dictionary<T, string>();
+            return value
+                .GetType()
+                .GetField(value.ToString())
+                .GetCustomAttribute<DescriptionAttribute>(false)
+                .Description;
         }
 
-        public bool ContainsGuid(string guid)
+        public static bool ContainsGuid(string guid)
         {
-            return _ResourHandlerMapper.ContainsValue(guid);
+            return typeof(T)
+                .GetType()
+                .GetCustomAttributes<DescriptionAttribute>()
+                .Any((attribute) => attribute.Description == guid);
         }
 
         /// <summary>
         /// Loads a game object from using its mapped enum
         /// </summary>
-        public UnityEngine.GameObject Load(T resource)
+        public static UnityEngine.GameObject Load(T resource)
         {
             return Load<UnityEngine.GameObject>(resource);
         }
@@ -31,19 +38,19 @@ namespace AutoAssetLoader
         /// <summary>
         /// Loads an asset from using its mapped enum
         /// </summary>    
-        public G Load<G>(T resource)
+        public static G Load<G>(T resource)
         {
-            return AssetLoad<G>(_ResourHandlerMapper[resource]);
+            return AssetLoad<G>(GetEnumDescription(resource));
         }
 
         /// <summary>
-        /// Load an asset using its path
+        /// Load an asset using its guid
         /// </summary>
-        private static G AssetLoad<G>(string guid)
+        static G AssetLoad<G>(string guid)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);
-            var value = UnityEngine.Resources.Load(path);
-            return (G)Convert.ChangeType(value, typeof(T));
+            var value = AssetDatabase.LoadAssetAtPath(path, typeof(G));
+            return (G)Convert.ChangeType(value, typeof(G));
         }
     }
 }

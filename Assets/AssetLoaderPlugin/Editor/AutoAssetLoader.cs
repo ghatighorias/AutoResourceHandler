@@ -52,8 +52,7 @@ namespace AutoAssetLoader
             };
 
             MonitorActive = EditorPrefs.GetBool("AutoAssetLoader_Monitor_Active", false);
-            _ResourHandler d;
-            d.
+            
             loadSettingsFinished = true;
         }
 

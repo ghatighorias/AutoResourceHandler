@@ -51,108 +51,45 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" \r\n{\r\n\tpublic class ");
+            this.Write(" \r\n{\r\n\t\t/// <summary>\r\n\t\t/// Enum indicating the available assets for loading usi" +
+                    "ng ");
             
-            #line 24 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(className));
-            
-            #line default
-            #line hidden
-            this.Write(" : ResourceHandlerBase<");
-            
-            #line 24 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
-            
-            #line default
-            #line hidden
-            this.Write(">\r\n\t{\r\n\t\tprotected override Dictionary<");
-            
-            #line 26 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
-            
-            #line default
-            #line hidden
-            this.Write(", string> _ResourHandlerMapper { get; set; } = new Dictionary<");
-            
-            #line 26 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
-            
-            #line default
-            #line hidden
-            this.Write(", string>()\r\n\t\t{\r\n\t\t");
-            
-            #line 28 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
- foreach(var item in items) {
-            
-            #line default
-            #line hidden
-            this.Write("\t{");
-            
-            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(getEnumName(item)));
-            
-            #line default
-            #line hidden
-            this.Write(", \"");
-            
-            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.guid));
-            
-            #line default
-            #line hidden
-            this.Write("\"},\r\n\t\t");
-            
-            #line 30 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-}
-            
-            #line default
-            #line hidden
-            this.Write("};\r\n\t}\r\n\t\t/// <summary>\r\n\t\t/// Enum indicating the available assets for loading u" +
-                    "sing ");
-            
-            #line 33 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 25 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(className));
             
             #line default
             #line hidden
             this.Write(" load function\r\n\t\t/// </summary>\r\n\t\tpublic enum ");
             
-            #line 35 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 27 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(enumName));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t{\r\n\t\t");
             
-            #line 37 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
  foreach(var item in items) {
             
             #line default
             #line hidden
             this.Write("\t[Description(\"");
             
-            #line 38 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item.name));
+            #line 30 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.guid));
             
             #line default
             #line hidden
             this.Write("\")]\r\n\t\t\t");
             
-            #line 39 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 31 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", getEnumName(item))));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 40 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 32 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
 }
             
             #line default
@@ -161,7 +98,7 @@ namespace ");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 43 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+        #line 35 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
 
     List<FileItemDescriptor> items = new List<FileItemDescriptor>();
 	string namespaceName;
