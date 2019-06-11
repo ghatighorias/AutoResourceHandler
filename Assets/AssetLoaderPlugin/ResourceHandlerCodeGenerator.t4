@@ -13,7 +13,12 @@
 //   when the code is regenerated.
 //------------------------------------------------------------------------------
 
+using System;
+using UnityEngine;
+using UnityEditor;
+using AutoAssetLoader;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace AutoAssetLoader
 {

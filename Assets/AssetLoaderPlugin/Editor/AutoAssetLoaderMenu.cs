@@ -35,21 +35,15 @@ namespace AutoAssetLoader
 
         void OnGUI()
         {
-            CreateTextInput("Namespace", ref ClassDescriptor.namespaceName, new Rect(10, 10, 100, 15));
-            CreateTextInput("Class name", ref ClassDescriptor.className, new Rect(10, 30, 100, 15));
-            CreateTextInput("Save location", ref ClassDescriptor.saveLocation, new Rect(10, 50, 100, 15), dragDrop: true);
-            CreateTextInput("Item name prefix", ref ClassDescriptor.itemNamePrefix, new Rect(10, 70, 100, 15));
+            CreateTextInput("File Name", ref ClassDescriptor.fileName, new Rect(10, 10, 100, 15));
+            CreateTextInput("Save Location", ref ClassDescriptor.saveLocation, new Rect(10, 30, 100, 15));
+            CreateTextInput("Enum Name Prefix", ref ClassDescriptor.enumPrefix, new Rect(10, 50, 100, 15), dragDrop: true);
 
-            ClassDescriptor.itemNameToUpper = GUI.Toggle(new Rect(10, 90, 250, 20), ClassDescriptor.itemNameToUpper, "Change Item names to uppercase");
-            // the code is not implemented for this section yet
-            GUI.enabled = false;
-            ClassDescriptor.seperateEnumForPrefabs = GUI.Toggle(new Rect(10, 110, 250, 20), ClassDescriptor.seperateEnumForPrefabs, "Create a seperate enum for prefabs");
-            ClassDescriptor.seperateEnumPerFolder = GUI.Toggle(new Rect(10, 130, 250, 20), ClassDescriptor.seperateEnumPerFolder, "Create seperate enum per each folder");
-            GUI.enabled = true;
+            ClassDescriptor.capitalizeAssetNames= GUI.Toggle(new Rect(10, 70, 250, 20),
+                ClassDescriptor.capitalizeAssetNames, "Capitalize asset names");
 
-            ClassDescriptor.staticClass = GUI.Toggle(new Rect(10, 150, 250, 20), ClassDescriptor.staticClass, "Make resource handler static");
-
-            MonitorActive = GUI.Toggle(new Rect(10, 170, 250, 20), MonitorActive, "Auto refresh if resources changed");
+            ClassDescriptor.trimItemNameByEnumGenerationOption = GUI.Toggle(new Rect(10, 90, 250, 20), 
+                ClassDescriptor.trimItemNameByEnumGenerationOption, "Trim Item Name By Generation Option");
 
             CreateButton("Save and generate", new Rect(50, 190, 150, 20), () => {
                 SaveSettings();
