@@ -37,18 +37,13 @@ namespace AutoAssetLoader.CodeGenerator
 //   when the code is regenerated.
 //------------------------------------------------------------------------------
 
-using System;
-using UnityEngine;
-using UnityEditor;
-using AutoAssetLoader;
 using System.ComponentModel;
-using System.Collections.Generic;
 
 namespace AutoAssetLoader
 {
 	");
             
-            #line 25 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 20 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
  foreach (var category in categorizedItems) { 
             
             #line default
@@ -56,42 +51,42 @@ namespace AutoAssetLoader
             this.Write("\t/// <summary>\r\n\t\t/// Enum indicating the available assets for loading using Ress" +
                     "ourceHandlerBase\r\n\t\t/// </summary>\r\n\t\tpublic enum ");
             
-            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 24 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(category.Key));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t{\r\n\t\t");
             
-            #line 31 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 26 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
  foreach(var item in category.Value) {
             
             #line default
             #line hidden
             this.Write("\t[Description(\"");
             
-            #line 32 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 27 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(item.guid));
             
             #line default
             #line hidden
             this.Write("\")]\r\n\t\t\t");
             
-            #line 33 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 28 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", getEnumName(item))));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 34 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 29 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
 }
             
             #line default
             #line hidden
             this.Write("}\r\n\t");
             
-            #line 35 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+            #line 30 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
 }
             
             #line default
@@ -100,7 +95,7 @@ namespace AutoAssetLoader
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 39 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
+        #line 34 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
 
     Dictionary<string, List<FileItemDescriptor>> categorizedItems = new Dictionary<string, List<FileItemDescriptor>>();
 	string fileName;
@@ -116,6 +111,9 @@ namespace AutoAssetLoader
 
 	public static void GenerateAndSave(Dictionary<string, List<FileItemDescriptor>> categorizedItems, ClassDescriptor descriptor)
 	{
+			if (categorizedItems == null || categorizedItems.Count == 0)
+				throw new Exception("AutoAssetLoader Failed: No data to generate output from");
+
 	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
 			t4.fileName = descriptor.fileName;
 			t4.enumPrefix = descriptor.enumPrefix;

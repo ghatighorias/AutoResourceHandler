@@ -46,6 +46,9 @@ namespace AutoAssetLoader
 
 	public static void GenerateAndSave(Dictionary<string, List<FileItemDescriptor>> categorizedItems, ClassDescriptor descriptor)
 	{
+			if (categorizedItems == null || categorizedItems.Count == 0)
+				throw new Exception("AutoAssetLoader Failed: No data to generate output from");
+
 	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
 			t4.fileName = descriptor.fileName;
 			t4.enumPrefix = descriptor.enumPrefix;

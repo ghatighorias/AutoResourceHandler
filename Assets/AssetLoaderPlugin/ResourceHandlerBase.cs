@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace AutoAssetLoader
 {
-    // TO-DO : throw exception when an enum is passed that has no description or its first description not guid of an asset
     public static class ResourceHandlerBase<T>
     {
         static string GetEnumDescription(T value)
