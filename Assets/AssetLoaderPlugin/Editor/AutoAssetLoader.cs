@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using AutoAssetLoader.CodeGenerator;
 using System.Text.RegularExpressions;
 
 namespace AutoAssetLoader
@@ -120,40 +119,45 @@ namespace AutoAssetLoader
                         .Where((itemDescriptor) => { return itemDescriptor.type != null; })
                         .ToList();
 
-            if (foundFiles.Count == 0)
+            var markedFiles = GetFileItemDescriptorWithMarkedItems(foundFiles);
+
+            if (markedFiles == null || markedFiles.Count == 0)
                 throw new FileNotFoundException($"No asset was found with in {searchDirectory} directory");
 
-            MarkExistingNames(foundFiles);
-
-            return foundFiles;
+            return markedFiles;
         }
 
         /// <summary>
         /// Update the nameExist of items in the given filItem list if there are repeatative names among them
         /// </summary>
         /// <param name="fileItems">List of items to check and mark</param>
-        static void MarkExistingNames(List<FileItemDescriptor> fileItems)
+        static List<FileItemDescriptor> GetFileItemDescriptorWithMarkedItems(List<FileItemDescriptor> fileItems)
         {
-            /* regardless of the enum generation type there can be two item with the same name in a folder
-             * only when the seperation is by extension such won't happen. since os won't allow two files
-             *  with the same name and extention in a folder
+            /* regardless of the enum generation type there can be two item with the same name
+             * or even the same extention and in different folders. it is needed therefore to
+             * inform the code generator inorder to create a unique enum name
              */
 
             if (fileItems == null)
-                return;
+                return null;
 
-            switch (ClassDescriptor.enumGenerationOption)
+            foreach (var fileItem in fileItems)
             {
-                case ClassDescriptor.EnumGenerationOption.Type:
-                case ClassDescriptor.EnumGenerationOption.Folder:
-                    foreach (var fileItem in fileItems)
-                        fileItem.nameExist = fileItems
-                            .Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
-                    break;
-                default:
-                    break;
+                fileItem.nameExist = fileItems
+                    .Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
+                fileItem.nameAndDirectoryExist = fileItem.nameExist && fileItems
+                    .Count((item) => item.NormalizedDirectory.ToLower() == fileItem.NormalizedDirectory.ToLower()) > 1;
             }
-            
+
+            return fileItems.Select(fileItem =>
+            {
+                fileItem.nameExist = fileItems
+                    .Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
+                fileItem.nameAndDirectoryExist = fileItem.nameExist && fileItems
+                    .Count((item) => item.NormalizedDirectory.ToLower() == fileItem.NormalizedDirectory.ToLower()) > 1;
+                return fileItem;
+            })
+            .ToList();
         }
 
         /// <summary>
@@ -253,7 +257,7 @@ namespace AutoAssetLoader
     }
 
     /// <summary>
-    /// This class describes a candidate item for assetloader code generator
+    /// This class describes a items that will passed to assetloader code generator
     /// </summary>
     public class FileItemDescriptor
     {
@@ -264,6 +268,7 @@ namespace AutoAssetLoader
         public string guid;
         public string name;
         public bool nameExist;
+        public bool nameAndDirectoryExist;
         public string NormalizedName { get { return GetNormalizedName(name); } }
         public string directory;
         public string NormalizedDirectory { get { return GetNormalizedName(directory); } }
