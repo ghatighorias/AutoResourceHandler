@@ -13,10 +13,60 @@
 //   when the code is regenerated.
 //------------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using UnityEditor;
+using System.Reflection;
 using System.ComponentModel;
 
 namespace AutoAssetLoader
 {
+	public static class AutoLoader<T>
+    {
+        static string GetEnumDescription(T value)
+        {
+            return value
+                .GetType()
+                .GetField(value.ToString())
+                .GetCustomAttribute<DescriptionAttribute>(false)
+                .Description;
+        }
+
+        public static bool ContainsGuid(string guid)
+        {
+            return typeof(T)
+                .GetType()
+                .GetCustomAttributes<DescriptionAttribute>()
+                .Any((attribute) => attribute.Description == guid);
+        }
+
+        /// <summary>
+        /// Loads a game object from using its mapped enum
+        /// </summary>
+        public static UnityEngine.GameObject Load(T resource)
+        {
+            return Load<UnityEngine.GameObject>(resource);
+        }
+
+        /// <summary>
+        /// Loads an asset from using its mapped enum
+        /// </summary>    
+        public static G Load<G>(T resource)
+        {
+            return AssetLoad<G>(GetEnumDescription(resource));
+        }
+
+        /// <summary>
+        /// Load an asset using its guid
+        /// </summary>
+        static G AssetLoad<G>(string guid)
+        {
+            var path = AssetDatabase.GUIDToAssetPath(guid);
+            var value = AssetDatabase.LoadAssetAtPath(path, typeof(G));
+            return (G)Convert.ChangeType(value, typeof(G));
+        }
+    }
+
 	<# foreach (var category in categorizedItems) { #>
 	/// <summary>
 		/// Enum indicating the available assets for loading using RessourceHandlerBase

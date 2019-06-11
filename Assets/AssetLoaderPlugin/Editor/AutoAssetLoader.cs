@@ -82,8 +82,8 @@ namespace AutoAssetLoader
                 var categorizedItems = GetCategorizeDescriptors(foundItems);
 
                 var filteredCategorizedItems = FilterFileItemDescriptor(categorizedItems, exclusionList);
-
-                ResourceHandlerCodeGenerator.GenerateAndSave(categorizedItems, ClassDescriptor);
+                
+                CodeGenerator.ResourceHandlerCodeGenerator.GenerateAndSave(categorizedItems, ClassDescriptor);
                 
                 AssetDatabase.Refresh();
             }
