@@ -61,8 +61,8 @@ namespace AutoAssetLoader.CodeGenerator
             
             #line default
             #line hidden
-            this.Write("\t/// <summary>\r\n\t\t/// Enum indicating the available assets for loading using Ress" +
-                    "ourceHandlerBase\r\n\t\t/// </summary>\r\n\t\tpublic enum ");
+            this.Write("\t/// <summary>\r\n\t\t/// Enum indicating the available assets for loading using Auto" +
+                    "Loader\r\n\t\t/// </summary>\r\n\t\tpublic enum ");
             
             #line 74 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(category.Key));
