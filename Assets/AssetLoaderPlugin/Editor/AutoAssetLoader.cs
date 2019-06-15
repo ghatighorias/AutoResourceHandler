@@ -82,7 +82,9 @@ namespace AutoAssetLoader
                 var categorizedItems = GetCategorizeDescriptors(foundItems);
 
                 var filteredCategorizedItems = FilterFileItemDescriptor(categorizedItems, exclusionList);
-                
+
+                var markedFilteredCategorizedItems = GetFileItemDescriptorWithMarkedItems(filteredCategorizedItems);
+
                 CodeGenerator.ResourceHandlerCodeGenerator.GenerateAndSave(categorizedItems, ClassDescriptor);
                 
                 AssetDatabase.Refresh();
@@ -119,19 +121,17 @@ namespace AutoAssetLoader
                         .Where((itemDescriptor) => { return itemDescriptor.type != null; })
                         .ToList();
 
-            var markedFiles = GetFileItemDescriptorWithMarkedItems(foundFiles);
+            if (foundFiles.Count == 0)
+                throw new FileNotFoundException($"No asset was found in {searchDirectory} or its sub directories");
 
-            if (markedFiles == null || markedFiles.Count == 0)
-                throw new FileNotFoundException($"No asset was found with in {searchDirectory} directory");
-
-            return markedFiles;
+            return foundFiles;
         }
 
         /// <summary>
         /// Update the nameExist of items in the given filItem list if there are repeatative names among them
         /// </summary>
         /// <param name="fileItems">List of items to check and mark</param>
-        static List<FileItemDescriptor> GetFileItemDescriptorWithMarkedItems(List<FileItemDescriptor> fileItems)
+        static Dictionary<string, List<FileItemDescriptor>> GetFileItemDescriptorWithMarkedItems(Dictionary<string, List<FileItemDescriptor>> fileItems)
         {
             /* regardless of the enum generation type there can be two item with the same name
              * or even the same extention and in different folders. it is needed therefore to
@@ -141,23 +141,19 @@ namespace AutoAssetLoader
             if (fileItems == null)
                 return null;
 
-            foreach (var fileItem in fileItems)
+            foreach (var fileItemRecord in fileItems)
             {
-                fileItem.nameExist = fileItems
+                foreach (var fileItem in fileItemRecord.Value)
+                {
+                    fileItem.nameExist = fileItemRecord.Value
                     .Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
-                fileItem.nameAndDirectoryExist = fileItem.nameExist && fileItems
-                    .Count((item) => item.NormalizedDirectory.ToLower() == fileItem.NormalizedDirectory.ToLower()) > 1;
+
+                    fileItem.nameAndDirectoryExist = fileItem.nameExist && fileItemRecord.Value
+                        .Count((item) => item.NormalizedDirectory.ToLower() == fileItem.NormalizedDirectory.ToLower()) > 1;
+                }
             }
 
-            return fileItems.Select(fileItem =>
-            {
-                fileItem.nameExist = fileItems
-                    .Count((item) => item.NormalizedName.ToLower() == fileItem.NormalizedName.ToLower()) > 1;
-                fileItem.nameAndDirectoryExist = fileItem.nameExist && fileItems
-                    .Count((item) => item.NormalizedDirectory.ToLower() == fileItem.NormalizedDirectory.ToLower()) > 1;
-                return fileItem;
-            })
-            .ToList();
+            return fileItems;
         }
 
         /// <summary>
