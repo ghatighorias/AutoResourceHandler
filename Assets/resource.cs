@@ -1,9 +1,3 @@
-﻿<#@ template language="C#" #>
-<#@ output extension=".cs" #>
-<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 
 // Make sure to set the customTool in the property panel of this file to "TextTemplatingFilePreprocessor"
 // Make sure to set the customToolNamespace in the property panel of this file to "AutoAssetLoader.CodeGenerator"
@@ -67,60 +61,55 @@ namespace AutoAssetLoader
         }
     }
 
-	<# foreach (var category in categorizedItems) { #>
-	/// <summary>
+		/// <summary>
 		/// Enum indicating the available assets for loading using RessourceHandlerBase
 		/// </summary>
-		public enum <#= category.Key #>
+		public enum SCENEASSET
 		{
-		<# foreach(var item in category.Value) {#>
-	[Description("<#=item.guid#>")]
-			<#=string.Format("{0},", GetEnumName(item))#>
-		<#}#>}
-	<#}#>
-
+			[Description("770687bc95cf84a8592677afe579bfde")]
+			SFD,
+		}
+		/// <summary>
+		/// Enum indicating the available assets for loading using RessourceHandlerBase
+		/// </summary>
+		public enum DEFAULTASSET
+		{
+			[Description("4a91c20e9cc395544a37c4d9efa47531")]
+			ASSETS_ASSETLOADERPLUGIN_RESOURCEHANDLERCODEGENERATOR,
+			[Description("3bb3892128d5cfb43a60c1682b3d082f")]
+			ASSETS_ASSETLOADERPLUGIN_EDITOR_RESOURCEHANDLERCODEGENERATOR_T4,
+		}
+		/// <summary>
+		/// Enum indicating the available assets for loading using RessourceHandlerBase
+		/// </summary>
+		public enum MONOSCRIPT
+		{
+			[Description("64d9d42b62533bd42b2059c456d05324")]
+			AUTOASSETLOADER,
+			[Description("aed0edc28cf86ec48bb1b7f04195b9cb")]
+			AUTOASSETLOADERMENU,
+			[Description("5ae8db9e7a8b5a141b6678bee1f28acb")]
+			ASSETS_ASSETLOADERPLUGIN_EDITOR_RESOURCEHANDLERCODEGENERATOR_CS,
+		}
+		/// <summary>
+		/// Enum indicating the available assets for loading using RessourceHandlerBase
+		/// </summary>
+		public enum TEXTURE2D
+		{
+			[Description("e0358426410804918aa2e2d16a79f7dd")]
+			BLOCK,
+		}
+		/// <summary>
+		/// Enum indicating the available assets for loading using RessourceHandlerBase
+		/// </summary>
+		public enum GAMEOBJECT
+		{
+			[Description("4dee584f7d17347e4a049c078f4782be")]
+			BLOCKPREFAB,
+			[Description("6e8166ec00c8c4cb3aa459f4617de956")]
+			SAMPLEPREFAB,
+		}
+	
 }
 
-<#+
-    Dictionary<string, List<FileItemDescriptor>> categorizedItems = new Dictionary<string, List<FileItemDescriptor>>();
-	string fileName;
-	string enumPrefix;
-	string saveLocation;
-    bool capitalizeAssetNames;
 
-	string GetEnumName(FileItemDescriptor item)
-	{
-		var uniqueName = GetUniqueName(item);
-		return capitalizeAssetNames ? uniqueName.ToUpper() : uniqueName;
-	}
-
-	string GetUniqueName(FileItemDescriptor item)
-	{
-		if (item.nameAndDirectoryExist)
-			return $"{item.NormalizedDirectory}_{item.NormalizedName}_{item.NormalizedExtention}";
-		else if (item.nameExist)
-			return $"{item.NormalizedDirectory}_{item.NormalizedName}";
-		else 
-			return item.NormalizedName;
-	}
-
-	public static void GenerateAndSave(Dictionary<string, List<FileItemDescriptor>> categorizedItems, ClassDescriptor descriptor)
-	{
-			if (categorizedItems == null || categorizedItems.Count == 0)
-				throw new Exception("AutoAssetLoader Failed: No data to generate output from");
-
-	        ResourceHandlerCodeGenerator t4 = new ResourceHandlerCodeGenerator();
-			t4.fileName = descriptor.fileName;
-			t4.enumPrefix = descriptor.enumPrefix;
-			t4.saveLocation = descriptor.saveLocation;
-			t4.capitalizeAssetNames = descriptor.capitalizeAssetNames;
-			t4.categorizedItems = categorizedItems;
-
-            var fileName = string.Format("./{0}/{1}.cs", t4.saveLocation, t4.fileName);
-            using (var writer = System.IO.File.CreateText(fileName))
-            {
-                writer.WriteLine(t4.TransformText());
-                writer.Flush();
-            }
-	}
-#>

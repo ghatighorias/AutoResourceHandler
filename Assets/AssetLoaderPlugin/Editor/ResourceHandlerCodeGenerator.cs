@@ -86,7 +86,7 @@ namespace AutoAssetLoader.CodeGenerator
             this.Write("\")]\r\n\t\t\t");
             
             #line 78 "D:\Unity\AutoResourceHandler\Assets\AssetLoaderPlugin\Editor\ResourceHandlerCodeGenerator.t4"
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", getEnumName(item))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(string.Format("{0},", GetEnumName(item))));
             
             #line default
             #line hidden
@@ -116,10 +116,20 @@ namespace AutoAssetLoader.CodeGenerator
 	string saveLocation;
     bool capitalizeAssetNames;
 
-	string getEnumName(FileItemDescriptor item)
+	string GetEnumName(FileItemDescriptor item)
 	{
-		var uniqueName = item.nameExist ? $"{item.NormalizedDirectory}_{item.NormalizedName}" : item.NormalizedName;
+		var uniqueName = GetUniqueName(item);
 		return capitalizeAssetNames ? uniqueName.ToUpper() : uniqueName;
+	}
+
+	string GetUniqueName(FileItemDescriptor item)
+	{
+		if (item.nameAndDirectoryExist)
+			return $"{item.NormalizedDirectory}_{item.NormalizedName}_{item.NormalizedExtention}";
+		else if (item.nameExist)
+			return $"{item.NormalizedDirectory}_{item.NormalizedName}";
+		else 
+			return item.NormalizedName;
 	}
 
 	public static void GenerateAndSave(Dictionary<string, List<FileItemDescriptor>> categorizedItems, ClassDescriptor descriptor)
